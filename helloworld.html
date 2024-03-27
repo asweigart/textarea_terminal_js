@@ -1,0 +1,26 @@
+<html>
+
+<textarea id="outputTextarea" class="tatjsOutput" readonly></textarea><br />
+<input type="text" id="inputText" class="tatjsInput" readonly />
+
+<script src="textarea_terminal.js"></script>
+<link rel="stylesheet" href="textarea_terminal.css">
+
+<script>
+
+tat = new Tatjs('outputTextarea', 'inputText');
+async function main() {
+    // input() and sleep() must be called from inside an async function.
+    tat.print('Hello, what is your name?');
+    let name = await tat.input();  // input() requries `away`
+
+    // Pass a blank string as the last argument if you don't want a newline automatically added.
+    tat.print('Well...', '');
+    await sleep(1000);  // sleep() requires `await`
+    tat.print('...it is good to meet you, ', name, '.');
+}
+main();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<meta charset="utf-8"/>
+
+<textarea id="outputTextarea" class="tatjsOutput" readonly></textarea><br />
+<input type="text" id="inputText" class="tatjsInput" readonly />
+
+<script src="textarea_terminal.js"></script>
+<link rel="stylesheet" href="textarea_terminal.css">
+
+
+<script>
+let tat = new Tatjs('outputTextarea', 'inputText');
+
+async function askForGuess() {
+    while (true) {
+        var guess = await tat.input();  // Enter the guess.
+        guess = Number(guess);
+
+        if (guess >= 1 && guess <= 100) {
+            return guess;
+        }
+        tat.print("Please enter a number between 1 and 100.");
+    }
+}
+
+async function main() {
+    tat.print("Guess the Number, by Al Sweigart al@inventwithpython.com");
+    tat.print();
+    var secretNumber = Math.floor(Math.random() * 100) + 1;  // Select a random number.
+    tat.print("I am thinking of a number between 1 and 100.");
+
+    for (var i = 0; i < 10; i++) {  // Give the player 10 guesses.
+        tat.print("You have ", 10 - i, " guesses left. Take a guess.");
+
+        var guess = await askForGuess();
+
+        if (guess == secretNumber) {
+            break;  // Break out of the for loop if the guess is correct.
+        }
+
+        // Offer a hint:
+        if (guess < secretNumber) {
+            tat.print("Your guess is too low.");
+        }
+        if (guess > secretNumber) {
+            tat.print("Your guess is too high.");
+        }
+    }
+
+    // Reveal the results:
+    if (guess == secretNumber) {
+        tat.print("Yay! You guessed my number!");
+    }
+    else {
+        tat.print("Game over. The number I was thinking of was ", secretNumber);
+    }
+}
+main();
+</script>
+
+</body>
+</html>

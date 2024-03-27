@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Zigzag</title>
+</head>
+
+<body>
+<textarea id="outputTextarea" class="tatjsOutput" readonly></textarea><br />
+<input type="text" id="inputText" class="tatjsInput" readonly />
+
+<script src="textarea_terminal.js"></script>
+<link rel="stylesheet" href="textarea_terminal.css">
+  
+<script>
+let tat = new Tatjs('outputTextarea', 'inputText');
+
+const DELAY = 60;
+let width = 80;
+let line = '';
+
+let ZIG_NUM_CHARS = 8;
+let ZIG_CHAR = '*';
+
+let running = true;
+let indentSize = 0;
+
+async function main() {
+    while (running) {
+        //width = 80; // TODO add a getWidth() kind of function to bextjs
+
+        for (let i = 0; i < width - ZIG_NUM_CHARS; i++) {
+            tat.print(' '.repeat(indentSize), ZIG_CHAR.repeat(ZIG_NUM_CHARS));
+            indentSize += 1;
+            await sleep(DELAY);
+            if (!running) break;
+        }
+
+        for (let i = 0; i < width - ZIG_NUM_CHARS; i++) {
+            tat.print(' '.repeat(indentSize), ZIG_CHAR.repeat(ZIG_NUM_CHARS));
+            indentSize -= 1;
+            await sleep(DELAY);
+            if (!running) break;
+        }
+    }
+}
+
+main();
+
+
+</script>
+</body>
+</html>
