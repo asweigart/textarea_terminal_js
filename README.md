@@ -32,7 +32,9 @@ This example has a simple "Hello, world!" program:
 
 Place the `textarea_terminal.js` and `textarea_terminal.css` in the same folder as your HTML file.
 
-Bext supplies `print()`, `input()`, and `sleep()` functions that are similar to Python's functions.
+Textarea_Terminal_JS supplies `print()`, `input()`, and `sleep()` functions that are similar to Python's functions of the same name.
+
+Textarea_Terminal_JS was previously called BextJS but that name is to confusingly similar to my other Python module, Bext at https://github.com/asweigart/bext
 
 # print()
 
@@ -63,7 +65,7 @@ See the demos in this repo or online:
 * [Cube Wall Animation](https://inventwithpython.com/bextjsdemos/cubewall.html)
 * [Zigzag Animation](https://inventwithpython.com/bextjsdemos/zigzag.html)
 
-BextJS is used for all the demos at [The Scroll Art Museum](https://scrollart.org).
+Textarea_Terminal_JS is used for all the demos at [The Scroll Art Museum](https://scrollart.org).
 
 
 Support

@@ -36,17 +36,17 @@ function _countNewlines(str) {
     return count;
 }
 
-function _truncateForRowBuffer(textareaOutputElem, rowBufferSize) {
+function _truncateForRowBuffer(outputElem, rowBufferSize) {
     if (rowBufferSize === null) {
         return;  // a null row buffer size means never truncate
     }
 
-    let totalNewlines = _countNewlines(textareaOutputElem.value);
+    let totalNewlines = _countNewlines(outputElem.value);
     if (totalNewlines >= rowBufferSize) {
         let newlineCount = 0;
         let cutAt = 0;
-        for (cutAt = 0; cutAt < textareaOutputElem.value.length; cutAt++) {
-            if (textareaOutputElem.value[cutAt] === '\n') {
+        for (cutAt = 0; cutAt < outputElem.value.length; cutAt++) {
+            if (outputElem.value[cutAt] === '\n') {
                 if (newlineCount == totalNewlines - rowBufferSize) {
                     break;
                 } else {
@@ -54,7 +54,7 @@ function _truncateForRowBuffer(textareaOutputElem, rowBufferSize) {
                 }
             }
         }
-        textareaOutputElem.value = textareaOutputElem.value.substring(cutAt + 1);
+        outputElem.value = outputElem.value.substring(cutAt + 1);
     }
 }
 
@@ -65,16 +65,13 @@ function sleep(delayInMilliseconds) {
 
 
 class Tatjs {
-    constructor(textareaOutputId=null, inputId=null, rowBufferSize=256) {
-        this.textareaOutputId = textareaOutputId;
-        this.inputId = inputId;
+    constructor(outputElem=null, inputElem=null, rowBufferSize=256) {
         this.rowBufferSize = rowBufferSize;
+        this.outputElem = outputElem;
+        this.inputElem = inputElem;
 
-        this.textareaOutputElem = document.getElementById(this.textareaOutputId);
-        this.inputElem = document.getElementById(this.inputId);
-
-        if (this.textareaOutputElem !== null) {
-            this.textareaOutputElem.readOnly = true;
+        if (this.outputElem !== null) {
+            this.outputElem.readOnly = true;
         }
         if (this.inputElem !== null) {
             this.inputElem.readOnly = true; 
@@ -84,8 +81,8 @@ class Tatjs {
 
     print() {
         // Pass a blank string as the last argument if you don't want a newline automatically added.
-        if (this.textareaOutputElem === null) {
-            throw "print() has been called but this.textareaOutputElem does not exist.";
+        if (this.outputElem === null) {
+            throw "print() has been called but this.outputElem does not exist.";
         }
 
         let args = Array.prototype.slice.call(arguments);
@@ -95,9 +92,9 @@ class Tatjs {
             newline = "";
         }
 
-        this.textareaOutputElem.value = this.textareaOutputElem.value + args.join("") + newline;
-        _truncateForRowBuffer(this.textareaOutputElem, this.rowBufferSize);
-        this.textareaOutputElem.scrollTop = this.textareaOutputElem.scrollHeight; // Scroll to the bottom of the text field.
+        this.outputElem.value = this.outputElem.value + args.join("") + newline;
+        _truncateForRowBuffer(this.outputElem, this.rowBufferSize);
+        this.outputElem.scrollTop = this.outputElem.scrollHeight; // Scroll to the bottom of the text field.
     }
 
     input() {
@@ -131,10 +128,10 @@ class Tatjs {
 
     clear() {
         // Erase all the text in the output text field:
-        if (this.textareaOutputElem === null) {
-            throw "clear() has been called but this.textareaOutputElem does not exist.";
+        if (this.outputElem === null) {
+            throw "clear() has been called but this.outputElem does not exist.";
         }
-        this.textareaOutputElem.value = "";
+        this.outputElem.value = "";
     }
 
 }
