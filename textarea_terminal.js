@@ -58,6 +58,22 @@ function _truncateForRowBuffer(outputElem, rowBufferSize) {
     }
 }
 
+function _processBackspaces(input) {
+    let stack = [];
+    for (let char of input) {
+        if (char === '\b') {
+            // If it's a backspace and there's something in the stack, pop the stack.
+            if (stack.length > 0) {
+                stack.pop();
+            }
+        } else {
+            // Otherwise, push the current character to the stack.
+            stack.push(char);
+        }
+    }
+    return stack.join('');
+}
+
 function sleep(delayInMilliseconds) {
     // Pause the program.
     return new Promise(resolve => setTimeout(resolve, delayInMilliseconds));
@@ -92,7 +108,7 @@ class Tatjs {
             newline = "";
         }
 
-        this.outputElem.value = this.outputElem.value + args.join("") + newline;
+        this.outputElem.value = _processBackspaces(this.outputElem.value + args.join("")) + newline;
         _truncateForRowBuffer(this.outputElem, this.rowBufferSize);
         this.outputElem.scrollTop = this.outputElem.scrollHeight; // Scroll to the bottom of the text field.
     }
