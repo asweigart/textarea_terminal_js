@@ -62,8 +62,8 @@ function _processBackspaces(input) {
     let stack = [];
     for (let char of input) {
         if (char === '\b') {
-            // If it's a backspace and there's something in the stack, pop the stack.
-            if (stack.length > 0) {
+            // If it's a backspace and there's something in the stack (but not a newline), pop the stack.
+            if (stack.length > 0 && stack[stack.length - 1] != '\n') {
                 stack.pop();
             }
         } else {
